@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}グループ削除{% endblock %}
+{% block width %}narrow{% endblock %}
+{% block body %}
+<section class="panel">
+  <p class="eyebrow">{{ login_user.group_name }}</p><h1>グループを削除する</h1>
+  <p class="description">このグループの利用を終了し、データを完全に削除します。</p>
+  <div class="warning-panel"><strong>削除すると元に戻せません。</strong>
+    <ul><li>全員のアカウントを削除します（退会済みの人も含みます）。</li>
+      <li>すべての試合・担当情報・担当履歴が消えます。</li>
+      <li>全メンバーがログインできなくなります。</li></ul>
+    <p>ほかのメンバーと相談してから削除してください。</p>
+  </div>
+  <form action="{{ url_for('group_delete') }}" method="post" class="stack-form"
+        data-confirm="全員のアカウント・試合・担当履歴を削除します。元に戻せません。本当に削除しますか？">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="password">自分のパスワード（確認用）</label>
+    <input id="password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password">
+    <label for="group_code">グループコード（確認用）</label>
+    <input id="group_code" name="group_code" type="text" required inputmode="numeric" autocomplete="off">
+    <p class="hint">半角の数字6桁</p>
+    <label class="confirm-label"><input name="confirmed" type="checkbox" value="yes" required>全員のデータが削除され、元に戻せないことを確認しました</label>
+    <div class="form-actions"><a class="button secondary" href="{{ url_for('matches') }}">キャンセル</a>
+      <button class="button danger-primary" type="submit">グループを完全に削除</button></div>
+  </form>
+</section>
+{% endblock %}

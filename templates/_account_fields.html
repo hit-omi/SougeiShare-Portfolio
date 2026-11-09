@@ -1,0 +1,15 @@
+<!-- グループ作成・参加で共通の入力欄です。パスワードは再表示しません。 -->
+<label for="name">表示名</label>
+<input id="name" name="name" type="text" maxlength="20" required
+       autocomplete="nickname" value="{{ request.form.get('name', '') }}" placeholder="例：田中">
+<p class="hint">1～20文字</p>
+<label for="user_id">ユーザーID</label>
+<input id="user_id" name="user_id" type="text" minlength="3" maxlength="30"
+       pattern="[A-Za-z0-9_-]{3,30}" required autocomplete="username"
+       autocapitalize="none" spellcheck="false" value="{{ request.form.get('user_id', '') }}"
+       aria-describedby="user-id-help">
+<p class="hint" id="user-id-help">半角英数字・_・-で3～30文字（大文字と小文字は区別）</p>
+<label for="password">パスワード</label>
+<input id="password" name="password" type="password" minlength="8" maxlength="128"
+       required autocomplete="new-password" aria-describedby="password-help">
+<p class="hint" id="password-help">8文字以上</p>

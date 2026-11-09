@@ -1,0 +1,39 @@
+erDiagram
+    GROUPS ||--o{ USERS : 所属
+    GROUPS ||--o{ MATCHES : 共有
+    USERS o|--o{ MATCHES : 行き担当
+    USERS o|--o{ MATCHES : 帰り担当
+    GROUPS {
+        INTEGER id PK
+        TEXT name
+        TEXT code UK
+        TEXT created_at
+    }
+    USERS {
+        INTEGER id PK
+        TEXT user_id UK
+        TEXT name
+        TEXT password_hash
+        INTEGER is_active
+        INTEGER group_id FK
+        TEXT created_at
+    }
+    AUTH_ATTEMPTS {
+        TEXT key_hash PK
+        INTEGER started_at
+        INTEGER attempt_count
+    }
+    MATCHES {
+        INTEGER id PK
+        INTEGER group_id FK
+        TEXT match_date
+        TEXT venue
+        REAL distance_km
+        TEXT going_status
+        INTEGER going_user_id FK
+        INTEGER going_version
+        TEXT returning_status
+        INTEGER returning_user_id FK
+        INTEGER returning_version
+        TEXT created_at
+    }

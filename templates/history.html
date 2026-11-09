@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}担当履歴{% endblock %}
+{% block body %}
+<div class="page-heading"><div><p class="eyebrow">{{ login_user.group_name }}</p><h1>担当履歴</h1></div>
+  <a class="button secondary" href="{{ url_for('matches') }}">一覧へ戻る</a></div>
+<p class="description">現在の試合・担当情報から集計しています。取り下げ・削除すると集計も変わります。</p>
+<section class="panel history-panel">
+  <h2>全メンバーの比較</h2>
+  <table class="history-table">
+    <caption>送迎担当回数と総走行距離（合計担当回数が多い順）</caption>
+    <colgroup><col class="name-col"><col><col><col><col class="distance-col"></colgroup>
+    <thead><tr><th scope="col">表示名</th><th scope="col">行き</th><th scope="col">帰り</th>
+      <th scope="col">合計</th><th scope="col">距離<br>（km）</th></tr></thead>
+    <tbody>
+    {% for item in history_list %}
+      <tr><th scope="row">{{ item.name }}{% if not item.is_active %}<span class="retired">（退会済み）</span>{% endif %}</th><td>{{ item.going_count }}</td><td>{{ item.returning_count }}</td>
+        <td>{{ item.total_count }}</td><td>{{ '%.1f'|format(item.total_distance_km) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p class="hint">行き・帰り・合計は担当回数。グループ外は集計に含めません。</p>
+</section>
+<section class="panel chart-panel">
+  <h2>総走行距離の比較</h2>
+  {% for item in history_list %}
+  <div class="chart-row">
+    <div class="chart-label"><span>{{ item.name }}{% if not item.is_active %}（退会済み）{% endif %}</span><strong>{{ '%.1f'|format(item.total_distance_km) }} km</strong></div>
+    <div class="bar-track" aria-hidden="true"><div class="bar" style="width: {{ '%.2f'|format(item.bar_width) }}%;"></div></div>
+  </div>
+  {% endfor %}
+  <p class="hint">片道10kmなら、行きのみで10km、行き・帰り両方で20kmです。</p>
+</section>
+{% endblock %}

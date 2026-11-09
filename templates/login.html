@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}ログイン{% endblock %}
+{% block width %}narrow{% endblock %}
+{% block body %}
+<section class="panel">
+  <p class="eyebrow">保護者の送迎サポート</p>
+  <h1>ログイン</h1>
+  <p class="description">試合の送迎を分担し、担当の負担を見える化します。</p>
+  <form action="{{ url_for('login') }}" method="post" class="stack-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="user_id">ユーザーID</label>
+    <input id="user_id" name="user_id" type="text" required minlength="3" maxlength="30"
+           autocomplete="username" autocapitalize="none" spellcheck="false"
+           value="{{ request.form.get('user_id', '') }}">
+    <label for="password">パスワード</label>
+    <input id="password" name="password" type="password" required minlength="8" maxlength="128"
+           autocomplete="current-password">
+    <button class="button primary full" type="submit">ログインする</button>
+  </form>
+  <div class="account-links">
+    <a href="{{ url_for('group_create') }}">新しくグループを作る</a>
+    <a href="{{ url_for('group_join') }}">グループコードで参加する</a>
+  </div>
+</section>
+{% endblock %}

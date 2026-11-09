@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant B as ブラウザ
+    participant A as app.py
+    participant D as SQLite
+    B->>A: 試合ID・方向・操作・更新番号・CSRFを送信
+    A->>A: 認証・CSRF・入力を確認
+    A->>D: 所属と状態と更新番号を条件に更新
+    D-->>A: 更新件数
+    alt 1件更新
+        A->>D: 保存確定
+        A-->>B: 完了案内と最新一覧
+    else 0件更新
+        A-->>B: 最新状態の確認案内と再表示
+    end

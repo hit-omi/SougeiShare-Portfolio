@@ -1,0 +1,8 @@
+flowchart TD
+    B[スマホ・PCのブラウザ] --> A[app.py：画面と処理]
+    A --> S[認証・CSRF・所属確認]
+    A --> T[templates：HTML画面]
+    B --> C[style.css：表示調整]
+    A --> D[database.py：DB接続・初期化]
+    D --> Q[(SQLite：v2専用DB)]
+    F[schema.sql：テーブル定義] --> D

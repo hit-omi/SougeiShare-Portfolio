@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SougeiShare-v2 設計図</title>
+<style>
+:root{color-scheme:light;--paper:#fff;--ink:#183249;--muted:#42596a;--line:#d5e1e8;--accent:#075e78;--surface:#edf4f7}
+*{box-sizing:border-box}
+body{background:var(--surface);color:var(--ink);font:16px/1.75 "Yu Gothic UI",Meiryo,"Noto Sans CJK JP",sans-serif;margin:0}
+main{max-width:1120px;margin:auto;padding:32px clamp(12px,4vw,38px) 48px}
+a{color:var(--accent);text-underline-offset:.18em}
+h1,h2,h3{line-height:1.35} h1{font-size:clamp(1.6rem,4vw,2.55rem);margin:.15em 0 .45em}
+h2{margin:1.55em 0 .65em} h3{margin:1.25em 0 .6em}
+p{margin:.65em 0} .eyebrow{color:var(--accent);font-weight:bold;font-size:.9rem;letter-spacing:.12em}
+.intro,.diagram,.readme{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:clamp(14px,3vw,30px)}
+.diagram{margin:20px 0;scroll-margin:20px} .diagram h2{margin:0 0 .45em}
+.diagram img{display:block;max-width:100%;height:auto;margin:.9em auto 0}
+.diagram img.er{max-height:1120px;width:auto;object-fit:contain}
+.diagram p{color:var(--muted)} .diagram .full{font-size:.9rem}
+nav ul{padding:0;display:flex;flex-wrap:wrap;list-style:none;gap:8px 12px}
+nav a{display:block;padding:4px 10px;background:#edf6f8;border:1px solid var(--line);border-radius:7px}
+table{width:100%;border-collapse:collapse;margin:1em 0}
+th,td{border:1px solid var(--line);padding:.55em;text-align:left;vertical-align:top}
+th{background:#edf6f8} td img{display:block;height:auto;max-width:100%}
+pre{overflow:auto;background:#eef4f7;border-radius:8px;padding:14px} code{overflow-wrap:anywhere}
+@media print{body{background:#fff} main{padding:0}.diagram{break-inside:avoid} nav,.full,.back{display:none}}
+</style>
+</head>
+<body><main>
+<header class="intro"><p class="eyebrow">SOUGEISHARE-V2</p>
+<h1>送迎共有アプリの設計図</h1>
+<p>試合の送迎を保護者同士で分担するWebアプリです。図をクリックすると原寸の画像が開きます。</p>
+<nav aria-label="設計図一覧"><ul><li><a href="#figure-01">画面遷移図</a></li><li><a href="#figure-02">アーキテクチャ図</a></li><li><a href="#figure-03">ER図</a></li><li><a href="#figure-04">状態遷移図</a></li><li><a href="#figure-06">担当更新シーケンス</a></li><li><a href="#figure-10">退会処理</a></li><li><a href="#figure-11">グループ削除処理</a></li></ul></nav>
+<p class="back"><a href="README.html">READMEに戻る</a></p>
+</header>
+<section class="diagram" id="figure-01">
+<h2>画面遷移図</h2><p>ログインから試合一覧、登録、履歴、退会までの画面のつながり。</p>
+<a href="docs/diagrams/01.png"><img src="docs/diagrams/01.png" alt="画面遷移図"></a>
+<p class="full"><a href="docs/diagrams/01.png">画像を原寸で開く</a></p>
+</section><section class="diagram" id="figure-02">
+<h2>アーキテクチャ図</h2><p>ブラウザー、Flask、SQLiteの役割とつながり。</p>
+<a href="docs/diagrams/02.png"><img src="docs/diagrams/02.png" alt="アーキテクチャ図"></a>
+<p class="full"><a href="docs/diagrams/02.png">画像を原寸で開く</a></p>
+</section><section class="diagram" id="figure-03">
+<h2>ER図</h2><p>グループ、ユーザー、試合、認証試行のテーブルと項目。</p>
+<a href="docs/diagrams/03.png"><img class="er" src="docs/diagrams/03.png" alt="ER図"></a>
+<p class="full"><a href="docs/diagrams/03.png">画像を原寸で開く</a></p>
+</section><section class="diagram" id="figure-04">
+<h2>状態遷移図</h2><p>行き・帰りそれぞれの送迎担当が変わる条件。</p>
+<a href="docs/diagrams/04.png"><img src="docs/diagrams/04.png" alt="状態遷移図"></a>
+<p class="full"><a href="docs/diagrams/04.png">画像を原寸で開く</a></p>
+</section><section class="diagram" id="figure-06">
+<h2>担当更新シーケンス</h2><p>送迎担当を変更し、変更結果を画面へ返す流れ。</p>
+<a href="docs/diagrams/06.png"><img src="docs/diagrams/06.png" alt="担当更新シーケンス"></a>
+<p class="full"><a href="docs/diagrams/06.png">画像を原寸で開く</a></p>
+</section><section class="diagram" id="figure-10">
+<h2>退会処理</h2><p>退会の確認と、今日以降の担当を募集中に戻す流れ。</p>
+<a href="docs/diagrams/10.png"><img src="docs/diagrams/10.png" alt="退会処理"></a>
+<p class="full"><a href="docs/diagrams/10.png">画像を原寸で開く</a></p>
+</section><section class="diagram" id="figure-11">
+<h2>グループ削除処理</h2><p>確認を経て所属グループのデータをまとめて削除する流れ。</p>
+<a href="docs/diagrams/11.png"><img src="docs/diagrams/11.png" alt="グループ削除処理"></a>
+<p class="full"><a href="docs/diagrams/11.png">画像を原寸で開く</a></p>
+</section>
+</main></body>
+</html>

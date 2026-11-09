@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant B as ブラウザ
+    participant A as app.py
+    participant D as SQLite
+    B->>A: 自分のパスワード・コード・確認・CSRF
+    A->>A: ログイン・CSRF・試行上限を確認
+    A->>D: 保存単位開始・所属と利用中状態を確認
+    A->>A: パスワードと保存済みコードを照合
+    alt 確認成功
+        A->>D: 所属グループのmatchesを削除
+        A->>D: 所属グループのusersを削除
+        A->>D: groupsを削除し保存確定
+        A->>A: セッション消去
+        A-->>B: 削除案内とログイン画面
+    else 確認失敗
+        A->>D: 変更を戻す
+        A-->>B: 案内・データ変更なし
+    end

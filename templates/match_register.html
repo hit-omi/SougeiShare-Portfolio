@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}試合登録{% endblock %}
+{% block width %}narrow{% endblock %}
+{% block body %}
+<section class="panel">
+  <p class="eyebrow">{{ login_user.group_name }}</p>
+  <h1>試合を登録する</h1>
+  <p class="description">同じグループの全メンバーに共有されます。</p>
+  <form action="{{ url_for('match_register') }}" method="post" class="stack-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="match_date">試合日</label>
+    <input id="match_date" name="match_date" type="date" required min="0001-01-01" max="9999-12-31"
+           value="{{ request.form.get('match_date', '') }}">
+    <p id="day-preview" class="hint" aria-live="polite"></p>
+    <label for="venue">会場名</label>
+    <input id="venue" name="venue" type="text" maxlength="50" required
+           value="{{ request.form.get('venue', '') }}" placeholder="例：○○中学校グラウンド">
+    <label for="distance_km">中学校からの距離（片道km）</label>
+    <input id="distance_km" name="distance_km" type="number" min="0" max="999.9" step="0.1"
+           inputmode="decimal" required value="{{ request.form.get('distance_km', '') }}" placeholder="例：12.5">
+    <p class="hint">小数第1位まで</p>
+    <div class="form-actions"><a class="button secondary" href="{{ url_for('matches') }}">キャンセル</a>
+      <button class="button primary" type="submit">登録する</button></div>
+  </form>
+</section>
+{% endblock %}

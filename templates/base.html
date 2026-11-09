@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SougeiShare-v2{% endblock %} | 送迎シェア</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="{{ url_for('index') }}">送迎シェア<span>SougeiShare-v2</span></a>
+      {% if login_user %}
+      <nav aria-label="メインメニュー">
+        <a href="{{ url_for('matches') }}">試合一覧</a>
+        <a href="{{ url_for('history') }}">担当履歴</a>
+        <a href="{{ url_for('account_withdraw') }}">退会</a>
+        <a href="{{ url_for('group_delete') }}">グループ削除</a>
+        <form action="{{ url_for('logout') }}" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <button class="nav-button" type="submit">ログアウト</button>
+        </form>
+      </nav>
+      {% endif %}
+    </div>
+  </header>
+  <main class="container {% block width %}{% endblock %}">
+    <!-- 通知はログインフォームより上に表示します。 -->
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      <p class="notice {{ category }}" role="status">{{ message }}</p>
+    {% endfor %}
+    {% if error %}<p class="notice error" role="alert">{{ error }}</p>{% endif %}
+    {% block body %}{% endblock %}
+  </main>
+  <footer>みんなで分担して、送迎をもっとスムーズに。</footer>
+</body>
+</html>

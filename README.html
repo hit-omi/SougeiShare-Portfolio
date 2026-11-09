@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SougeiShare-v2 README</title>
+<style>
+:root{color-scheme:light;--paper:#fff;--ink:#183249;--muted:#42596a;--line:#d5e1e8;--accent:#075e78;--surface:#edf4f7}
+*{box-sizing:border-box}
+body{background:var(--surface);color:var(--ink);font:16px/1.75 "Yu Gothic UI",Meiryo,"Noto Sans CJK JP",sans-serif;margin:0}
+main{max-width:1120px;margin:auto;padding:32px clamp(12px,4vw,38px) 48px}
+a{color:var(--accent);text-underline-offset:.18em}
+h1,h2,h3{line-height:1.35} h1{font-size:clamp(1.6rem,4vw,2.55rem);margin:.15em 0 .45em}
+h2{margin:1.55em 0 .65em} h3{margin:1.25em 0 .6em}
+p{margin:.65em 0} .eyebrow{color:var(--accent);font-weight:bold;font-size:.9rem;letter-spacing:.12em}
+.intro,.diagram,.readme{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:clamp(14px,3vw,30px)}
+.diagram{margin:20px 0;scroll-margin:20px} .diagram h2{margin:0 0 .45em}
+.diagram img{display:block;max-width:100%;height:auto;margin:.9em auto 0}
+.diagram img.er{max-height:1120px;width:auto;object-fit:contain}
+.diagram p{color:var(--muted)} .diagram .full{font-size:.9rem}
+nav ul{padding:0;display:flex;flex-wrap:wrap;list-style:none;gap:8px 12px}
+nav a{display:block;padding:4px 10px;background:#edf6f8;border:1px solid var(--line);border-radius:7px}
+table{width:100%;border-collapse:collapse;margin:1em 0}
+th,td{border:1px solid var(--line);padding:.55em;text-align:left;vertical-align:top}
+th{background:#edf6f8} td img{display:block;height:auto;max-width:100%}
+pre{overflow:auto;background:#eef4f7;border-radius:8px;padding:14px} code{overflow-wrap:anywhere}
+@media print{body{background:#fff} main{padding:0}.diagram{break-inside:avoid} nav,.full,.back{display:none}}
+</style>
+</head>
+<body><main><article class="readme"><h1 id="sougeishare-v2">SougeiShare-v2</h1>
+<p><strong>部活動の送迎分担・履歴管理Webアプリ</strong></p>
+<p><a href="design.html">設計図をブラウザーで見る</a> ・ <a
+href="#6-起動方法windows-11">Windowsでの起動方法</a></p>
+<p>ZIPを展開し、<code>SougeiShare-v2</code>
+フォルダを開きます。<code>README.html</code>
+はブラウザーで読めます。設計図は <code>design.html</code> または
+<code>docs/diagrams</code> 内の画像を開いてください。</p>
+<h2 id="1-アプリ概要">1. アプリ概要</h2>
+<p>SougeiShare-v2は、部活動などの練習試合で発生する保護者の送迎担当を管理するWebアプリケーションです。</p>
+<p>従来、グループ内で口頭やLINEなどを使って行っていた調整を、Webアプリ上で一元化することで、送迎の担当決めを簡単に行うことができます。また、過去の担当実績を可視化することで、保護者同士が協力しやすい仕組みを作りました。</p>
+<h3 id="管理できる内容">管理できる内容</h3>
+<p>約4名の保護者で1つのグループを作成し、グループ内で交代で送迎を担当する状況を想定しています。</p>
+<ul>
+<li>送迎担当者の管理</li>
+<li>担当した回数の履歴</li>
+<li>担当した総走行距離の履歴</li>
+<li>練習試合ごとの送迎状況の履歴</li>
+</ul>
+<h2 id="2-主な機能">2. 主な機能</h2>
+<table>
+<thead>
+<tr class="header">
+<th>機能</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>①ログイン</td>
+<td>グループ作成、6桁のグループコードによる参加</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>ユーザーID・パスワードによる認証</td>
+</tr>
+<tr class="odd">
+<td>②試合一覧</td>
+<td>今後／過去の表示切替</td>
+</tr>
+<tr class="even">
+<td>　　　　　　</td>
+<td>一覧表示・削除</td>
+</tr>
+<tr class="odd">
+<td>　　　　　　</td>
+<td>送迎担当　行き・帰り別の担当登録と取り下げ</td>
+</tr>
+<tr class="even">
+<td>③試合登録</td>
+<td>試合の登録</td>
+</tr>
+<tr class="odd">
+<td>④履歴管理</td>
+<td>担当回数・総走行距離の集計、一覧表・横棒グラフでの比較</td>
+</tr>
+<tr class="even">
+<td>⑤アカウント退会</td>
+<td>個人アカウントの退会</td>
+</tr>
+<tr class="odd">
+<td>⑥グループ削除</td>
+<td>グループ全体の削除</td>
+</tr>
+<tr class="even">
+<td>⑦レスポンシブ</td>
+<td>スマホ用画面</td>
+</tr>
+</tbody>
+</table>
+<h2 id="画面イメージ">【画面イメージ】</h2>
+<table>
+  <tr>
+    <th>①ログイン</th>
+    <th>②試合一覧</th>
+  </tr>
+  <tr>
+    <td><a href="image/image-1.png"><img src="image/image-1.png" width="350"></a></td>
+    <td><a href="image/image-2.png"><img src="image/image-2.png" width="350"></a></td>
+  </tr>
+  <tr>
+    <th>③試合登録</th>
+    <th>④履歴管理</th>
+  </tr>
+  <tr>
+    <td><a href="image/image-3.png"><img src="image/image-3.png" width="350"></a></td>
+    <td><a href="image/image-4.png"><img src="image/image-4.png" width="350"></a></td>
+  </tr>
+  <tr>
+    <th>⑤アカウント退会</th>
+    <th>⑥グループ削除</th>
+  </tr>
+  <tr>
+    <td><a href="image/image-5.png"><img src="image/image-5.png" width="350"></a></td>
+    <td><a href="image/image-6.png"><img src="image/image-6.png" width="350"></a></td>
+  </tr>
+  <tr>
+    <th>⑦レスポンシブ</th>
+    <th></th>
+  </tr>
+  <tr>
+    <td><a href="image/image-7.png"><img src="image/image-7.png" width="350"></a></td>
+    <td></td>
+  </tr>
+</table>
+
+<h2 id="3-使用技術システム構成">3. 使用技術・システム構成</h2>
+<table>
+<thead>
+<tr class="header">
+<th>区分</th>
+<th>技術</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>バックエンド</td>
+<td>Python / Flask</td>
+<td>画面遷移、ログイン、試合管理、履歴集計</td>
+</tr>
+<tr class="even">
+<td>データベース</td>
+<td>SQLite</td>
+<td>ユーザー・グループ・試合情報の保存</td>
+</tr>
+<tr class="odd">
+<td>フロントエンド</td>
+<td>HTML / CSS</td>
+<td>画面表示、入力フォーム、スマートフォン対応</td>
+</tr>
+<tr class="even">
+<td>開発環境</td>
+<td>Windows 11 / VS Code</td>
+<td>開発・動作確認</td>
+</tr>
+</tbody>
+</table>
+<p>構成図は<a
+href="docs/diagrams/02.png">アーキテクチャ図</a>を参照。</p>
+<h2 id="4-工夫改善した点">4. 工夫・改善した点</h2>
+<h3 id="スマートフォンでの操作性">スマートフォンでの操作性</h3>
+<p>旧版のカード形式を維持し、グループ情報の表示を追加しました。スマートフォン中心のレイアウトを採用しています。</p>
+<h3 id="グループ単位での利用">グループ単位での利用</h3>
+<p>複数の保護者グループが利用できるように、グループ作成・参加機能を追加しました。<br />
+所属グループのデータだけを操作できる設計としています。</p>
+<h3 id="担当実績の可視化">担当実績の可視化</h3>
+<p>送迎担当回数と総走行距離を集計し、メンバー間で比較できるようにしました。<br />
+集計ルールは<a
+href="docs/確定仕様書.md#3-4-担当履歴画面">確定仕様書3-4</a>を参照してください。</p>
+<h3 id="旧版からの改善点">旧版からの改善点</h3>
+<table>
+<thead>
+<tr class="header">
+<th>項目</th>
+<th>旧コードの実際</th>
+<th>v2の確定要件・対応</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>試合一覧</td>
+<td>すでにカード形式</td>
+<td>カードを維持し、グループ名・コードを追加</td>
+</tr>
+<tr class="even">
+<td>担当取り下げ</td>
+<td>全ユーザーが可能</td>
+<td>同グループ全員が可能</td>
+</tr>
+<tr class="odd">
+<td>グループ外の解除</td>
+<td>「取り消す」で募集中へ戻る</td>
+<td>「募集中に戻す」で確認後に解除</td>
+</tr>
+<tr class="even">
+<td>距離集計</td>
+<td>担当方向ごとに片道距離を加算</td>
+<td>維持。往復換算しない</td>
+</tr>
+<tr class="odd">
+<td>履歴</td>
+<td>全ユーザーの比較表、グラフなし</td>
+<td>同グループ全員の表＋CSS横棒グラフ</td>
+</tr>
+<tr class="even">
+<td>グループ</td>
+<td>なし</td>
+<td>groups追加、usersとmatchesにgroup_id追加</td>
+</tr>
+<tr class="odd">
+<td>パスワード</td>
+<td>平文で保存・照合</td>
+<td>ハッシュ保存・照合</td>
+</tr>
+<tr class="even">
+<td>初期データ</td>
+<td>data.sqlからユーザー4人と試合2件</td>
+<td>seedと旧DBを引き継がず空のDBから開始</td>
+</tr>
+<tr class="odd">
+<td>更新競合</td>
+<td>試合IDだけで更新し、既存担当の上書きが可能</td>
+<td>所属・現在状態を条件に含める</td>
+</tr>
+<tr class="even">
+<td>CSRF対策</td>
+<td>フォームに専用トークンなし</td>
+<td>全POSTで検証する</td>
+</tr>
+<tr class="odd">
+<td>ログアウト</td>
+<td>GETで状態変更</td>
+<td>CSRF付きPOSTのログアウトボタン</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5生成aiの活用範囲">5.生成AIの活用範囲</h2>
+<p>本アプリは、生成AI（ChatGPT）を開発支援ツールとして活用して制作しました。</p>
+<table>
+<thead>
+<tr class="header">
+<th>工程</th>
+<th>担当</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>企画・発案</td>
+<td>自分</td>
+<td>日常の課題からアプリを発案</td>
+</tr>
+<tr class="even">
+<td>要件定義</td>
+<td>自分・AI</td>
+<td>必要な機能や利用方法を検討</td>
+</tr>
+<tr class="odd">
+<td>仕様設計</td>
+<td>自分・AI</td>
+<td>AIを活用しながら仕様を具体化</td>
+</tr>
+<tr class="even">
+<td>設計書作成</td>
+<td>AI</td>
+<td>設計図や構成資料を生成</td>
+</tr>
+<tr class="odd">
+<td>コーディング</td>
+<td>AI</td>
+<td>Python・Flask・SQLiteによる実装</td>
+</tr>
+<tr class="even">
+<td>テスト</td>
+<td>自分・AI</td>
+<td>AIによる確認支援、自分による動作確認</td>
+</tr>
+<tr class="odd">
+<td>修正・改善</td>
+<td>自分・AI</td>
+<td>改善点を指示し、AIがコードを修正</td>
+</tr>
+<tr class="even">
+<td>最終判断</td>
+<td>自分</td>
+<td>機能・仕様・デザインを最終決定</td>
+</tr>
+</tbody>
+</table>
+<h3 id="自身の役割">【自身の役割】</h3>
+<p>課題の発案から必要な機能の検討、仕様の決定、動作確認まで主体的に取り組みました。</p>
+<p>実装には生成AIを活用し、生成されたコードについても理解を深めるために現在学習を進めています。</p>
+<hr />
+<h2 id="6-起動方法windows-11">6. 起動方法（Windows 11）</h2>
+<p>Pythonをインストールし、<code>app.py</code> があるフォルダをVS
+Codeで開きます。ターミナル（PowerShell）で順番に実行します。</p>
+<pre class="powershell"><code>py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe app.py</code></pre>
+<p>ブラウザで <a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a>
+を開きます。初回起動でDBとローカル用秘密値を生成します。初期アカウントはないため、新規グループを作成します。停止はターミナルでCtrl+Cです。この起動方法は同じPCからのローカル利用用です。</p>
+<h2 id="7-設計検証資料">7. 設計・検証資料</h2>
+<table>
+<thead>
+<tr class="header">
+<th>資料</th>
+<th>役割・正本とする内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="docs/確定仕様書.md">確定仕様書</a></td>
+<td>画面・業務ルール・入力規則・並び順</td>
+</tr>
+<tr class="even">
+<td><a href="docs/詳細設計.md">詳細設計</a></td>
+<td>DB・SQL・認証・更新方式</td>
+</tr>
+<tr class="odd">
+<td><a href="design.html">設計図</a></td>
+<td>ブラウザーで読める設計図7点</td>
+</tr>
+<tr class="even">
+<td><a href="docs/設計図一式.md">設計図一覧</a></td>
+<td>閲覧用PNGと編集元Mermaidへのリンク</td>
+</tr>
+<tr class="odd">
+<td><a href="docs/フォルダ構成.md">フォルダ構成</a></td>
+<td>ファイル配置</td>
+</tr>
+<tr class="even">
+<td><a href="docs/動作確認結果.md">動作確認結果</a></td>
+<td>確認主体・範囲・結果・未確認事項</td>
+</tr>
+</tbody>
+</table>
+</article></main></body>
+</html>

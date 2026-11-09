@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}試合一覧{% endblock %}
+{% block body %}
+<section class="group-summary">
+  <div><p class="eyebrow">利用中のグループ</p><h2>{{ login_user.group_name }}</h2>
+    <p class="hint">ログイン：{{ login_user.name }}</p></div>
+  <div><span class="hint">グループコード</span><strong class="group-code">{{ login_user.group_code }}</strong>
+    <p class="hint">参加するメンバーに伝えてください。</p></div>
+</section>
+<div class="page-heading"><div><h1>練習試合一覧</h1><p>都合の合う送迎を担当しましょう。</p></div>
+  <a class="button primary" href="{{ url_for('match_register') }}">＋ 試合を登録</a></div>
+<div class="button-row">
+  <a class="button {{ 'primary' if view == 'upcoming' else 'secondary' }}"
+     href="{{ url_for('matches', view='upcoming') }}">
+    今後の試合
+  </a>
+  <a class="button {{ 'primary' if view == 'past' else 'secondary' }}"
+     href="{{ url_for('matches', view='past') }}">
+    過去の試合
+  </a>
+</div>
+
+{% if not match_list %}
+<section class="panel empty">
+  {% if view == 'past' %}
+    <h2>過去の試合はありません</h2>
+    <p>昨日以前の試合がここに表示されます。</p>
+  {% else %}
+    <h2>今後の試合はありません</h2>
+    <p>「＋ 試合を登録」から試合を登録してください。</p>
+  {% endif %}
+</section>
+{% endif %}
+<div class="match-list">
+{% for match in match_list %}
+<article class="match-card">
+  <div class="match-heading"><p class="match-date">{{ match.match_date }}（{{ match.day }}）</p>
+    <form action="{{ url_for('match_delete') }}" method="post"
+          data-confirm="この試合を削除しますか？担当情報も削除され、担当履歴の回数・距離が変わります。">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="match_id" value="{{ match.id }}">
+      <button class="button danger" type="submit">試合削除</button>
+    </form>
+  </div>
+  <h2 class="venue">{{ match.venue }}</h2>
+  <p class="distance">中学校からの距離（片道） <strong>{{ '%.1f'|format(match.distance_km) }} km</strong></p>
+  <div class="transport-grid">
+  {% for direction, label in [('going', '行き'), ('returning', '帰り')] %}
+    {% set status = match[direction + '_status'] %}
+    <section class="transport-box">
+      <h3>{{ label }}の送迎</h3>
+      {% if status == 'ASSIGNED' %}
+        <p class="status assigned">決定：{{ match[direction + '_user_name'] }}</p>
+      {% elif status == 'OUTSIDE' %}
+        <p class="status outside">グループ外</p>
+      {% else %}
+        <p class="status pending">募集中</p>
+      {% endif %}
+      <form action="{{ url_for('match_update') }}" method="post" class="button-row"
+            {% if status == 'ASSIGNED' %}data-confirm="この担当を取り下げて、募集中に戻しますか？担当履歴も変わります。"
+            {% elif status == 'OUTSIDE' %}data-confirm="グループ外の設定を解除し、募集中に戻しますか？"{% endif %}>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="match_id" value="{{ match.id }}">
+        <input type="hidden" name="direction" value="{{ direction }}">
+        <input type="hidden" name="version" value="{{ match[direction + '_version'] }}">
+        {% if status == 'PENDING' %}
+          <button class="button primary" name="action" value="assign" type="submit">担当する</button>
+          <button class="button secondary" name="action" value="outside" type="submit">グループ外</button>
+        {% elif status == 'ASSIGNED' %}
+          <button class="button secondary" name="action" value="cancel" type="submit">取り下げる</button>
+        {% else %}
+          <button class="button secondary" name="action" value="cancel" type="submit">募集中に戻す</button>
+        {% endif %}
+      </form>
+    </section>
+  {% endfor %}
+  </div>
+</article>
+{% endfor %}
+</div>
+<p class="hint">「グループ外」：グループ以外の車で行く場合に使用。担当履歴には含まれません。</p>
+{% endblock %}

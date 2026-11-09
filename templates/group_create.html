@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}新規グループ作成{% endblock %}
+{% block width %}narrow{% endblock %}
+{% block body %}
+<section class="panel">
+  <p class="eyebrow">はじめて利用する方へ</p>
+  <h1>グループを作る</h1>
+  <p class="description">登録後に数字6桁のグループコードが発行されます。</p>
+  <form action="{{ url_for('group_create') }}" method="post" class="stack-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="group_name">グループ名</label>
+    <input id="group_name" name="group_name" type="text" maxlength="30" required
+           value="{{ request.form.get('group_name', '') }}" placeholder="例：○○中学校 部活送迎">
+    <p class="hint">1～30文字</p>
+    {% include "_account_fields.html" %}
+    <button class="button primary full" type="submit">作成して利用を始める</button>
+  </form>
+  <a class="back-link" href="{{ url_for('login') }}">ログインへ戻る</a>
+</section>
+{% endblock %}

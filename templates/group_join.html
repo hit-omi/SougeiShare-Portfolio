@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}グループ参加{% endblock %}
+{% block width %}narrow{% endblock %}
+{% block body %}
+<section class="panel">
+  <p class="eyebrow">メンバーとして利用する方へ</p>
+  <h1>グループに参加する</h1>
+  <p class="description">メンバーから教えてもらったコードを入力してください。</p>
+  <form action="{{ url_for('group_join') }}" method="post" class="stack-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="group_code">グループコード</label>
+    <input id="group_code" name="group_code" type="text" inputmode="numeric"
+           required autocomplete="off" value="{{ request.form.get('group_code', '') }}"
+           placeholder="例：012345" aria-describedby="code-help">
+    <p class="hint" id="code-help">半角の数字6桁</p>
+    {% include "_account_fields.html" %}
+    <button class="button primary full" type="submit">参加して利用を始める</button>
+  </form>
+  <a class="back-link" href="{{ url_for('login') }}">ログインへ戻る</a>
+</section>
+{% endblock %}

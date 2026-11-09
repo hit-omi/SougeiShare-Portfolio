@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}ご確認ください{% endblock %}
+{% block width %}narrow{% endblock %}
+{% block body %}
+<section class="panel"><h1>ご確認ください</h1><p>{{ message }}</p>
+  <a class="button primary" href="{{ url_for('index') }}">画面を開き直す</a></section>
+{% endblock %}

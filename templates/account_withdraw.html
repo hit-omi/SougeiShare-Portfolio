@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}アカウント退会{% endblock %}
+{% block width %}narrow{% endblock %}
+{% block body %}
+<section class="panel">
+  <p class="eyebrow">{{ login_user.group_name }}</p><h1>アカウントを退会する</h1>
+  <p class="description">{{ login_user.name }}のアカウントのみを退会扱いにします。</p>
+  <div class="warning-panel">
+    <ul><li>退会後はログインできません。元に戻す機能はありません。</li>
+      <li>過去の担当実績は残り、履歴に「退会済み」と表示されます。</li>
+      <li>日本時間の今日以降の担当は「募集中」に戻ります。</li>
+      <li>グループと他のメンバーは削除されません。</li></ul>
+    <p class="hint">同じユーザーIDでの新規登録はできません。</p>
+  </div>
+  {% if last_member %}
+  <p class="notice info">現在、利用中のメンバーはあなた1人です。退会すると操作できる人がいなくなります。グループ全体を終了したい場合は、退会せず「グループ削除」を利用してください。</p>
+  <a href="{{ url_for('group_delete') }}">グループ削除の画面へ</a>
+  {% endif %}
+  <form action="{{ url_for('account_withdraw') }}" method="post" class="stack-form"
+        data-confirm="アカウントを退会しますか？退会後はログインできません。">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="password">自分のパスワード（確認用）</label>
+    <input id="password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password">
+    <label class="confirm-label"><input name="confirmed" type="checkbox" value="yes" required>退会後の扱いを確認しました</label>
+    <div class="form-actions"><a class="button secondary" href="{{ url_for('matches') }}">キャンセル</a>
+      <button class="button danger-primary" type="submit">退会する</button></div>
+  </form>
+</section>
+{% endblock %}
